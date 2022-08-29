@@ -17,8 +17,7 @@ Duel.display;
 
 ~tactic = {|tactic, func|
 	~turn = ~turn + 1;
-	("Turn" + ~turn).postln;
-	~turnTxt.string = ~length - ~turn;
+	~turn.postln;
 	~calcProfit.(tactic);
 	~colMatrix.(tactic);
 	~prevTactics[~player] = tactic;
