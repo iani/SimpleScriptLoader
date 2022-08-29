@@ -1,0 +1,1 @@
+"This is a test script for Duel class. It was just run".postln;
