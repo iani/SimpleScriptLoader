@@ -1,54 +1,57 @@
-var col, row, wd, wb, cv, cb;
+/* 29 Aug 2022 22:39
+New version by Takumi Ikeda
+*/
+
+var col, row, wb, cv, cb;
 col = ~xmat[0].size;
 row = ~xmat.size;
 
 r = Window.availableBounds;
-wd = Window(\display, Rect(10, r.height-800, 800, 800)).front;
-~wd = wd;
-wd.background = Color.white;
-wd.alwaysOnTop = true;
-wb = wd.bounds;
+~wd = Window(\display, Rect(10, r.height-600, 500, 500)).front;
+~wd.background = Color.white;
+~wd.alwaysOnTop = true;
+wb = ~wd.bounds;
 
-cv = CompositeView(wd, wd.view.bounds.insetAll(100, 50, 100, 300));
-cb = cv.bounds;
+// Score board
+~playerTxt = Array.fill(2, {|i|
+	var txt;
+	txt = StaticText(~wd, Rect(wb.width/2*i, wb.height-180, wb.width/2, 45));
+	txt.stringColor = Color.black;
+	txt.font = Font("Arial", 25);
+	txt.align = \center;
+	txt.string = ["PHOENIX", "ALBATROSS"][i];
+});
 
 ~scoTxt = Array.fill(2, {|i|
 	var txt;
-	txt = StaticText(wd, Rect(wb.width/2*i, wb.height-200, wb.width/2, 150));
+	txt = StaticText(~wd, Rect(wb.width/2*i, wb.height-135, wb.width/2, 90));
 	txt.stringColor = Color.black;
 	txt.font = Font("Arial", 100);
 	txt.align = \center;
 });
 
-~playerTxt = Array.fill(2, {|i|
-	var txt;
-	txt = StaticText(wd, Rect(wb.width/2*i, wb.height-250, wb.width/2, 50));
-	txt.stringColor = Color.black;
-	txt.font = Font("Arial", 40);
-	txt.align = \center;
-	txt.string = ["PHOENIX", "ALBATROSS"][i];
-});
-
 ~winnerTxt = Array.fill(2, {|i|
 	var txt;
-	txt = StaticText(wd, Rect(wb.width/2*i, wb.height-50, wb.width/2, 50));
+	txt = StaticText(~wd, Rect(wb.width/2*i, wb.height-45, wb.width/2, 45));
 	txt.stringColor = Color.red;
-	txt.font = Font("Arial", 40);
+	txt.font = Font("Arial", 30);
 	txt.align = \center;
 });
 
-
 // Payoff Matrix
+cv = CompositeView(~wd, ~wd.view.bounds.insetAll(40, 40, 0, 180));
+cb = cv.bounds;
+
 ~payTxt = Array.fill(~xmat.flatten.size, {|i|
 	var txt;
 	txt = StaticText(cv, Rect(cb.width/(col+1)*(i%col+1), cb.height/(row+1)*((i/row).floor+1), cb.width/(col+1), cb.height/(row+1)));
 	txt.stringColor = Color.black;
-	txt.font = Font("Arial", 40);
+	txt.font = Font("Arial", 30);
 	txt.align = \center;
 	txt.string = ~xmat.flatten[i];
 });
 
-// Change color
+// Change color of cells
 ~colMatrix = {|tactic|
 	~payTxt.do{|e,i|
 		e.background = Color.white;
@@ -60,20 +63,37 @@ cb = cv.bounds;
 	};
 };
 
-// Labels of players
-~labelY = StaticText(wd, Rect(100, 0, cb.width, 50));
-~labelY.stringColor = Color.black;
-~labelY.font = Font("Arial", 30);
-~labelY.align = \center;
-~labelY.string = "1st player";
-~labelY.background = Color.gray(0.9);
+// Labels of tactics
+col.do{|i|
+	var txt;
+	txt = StaticText(cv, Rect(cb.width/(col+1)*(i%col+1), 0, cb.width/(col+1), cb.height/(row+1)));
+	txt.stringColor = Color.black;
+	txt.font = Font("Arial", 20);
+	txt.align = \center;
+	txt.string = i;
+};
 
-~labelX = StaticText(wd, Rect(0, 50, 100, cb.height));
-~labelX.stringColor = Color.black;
-~labelX.font = Font("Arial", 30);
-~labelX.align = \center;
-~labelX.string = "2nd player";
+row.do{|i|
+	var txt;
+	txt = StaticText(cv, Rect(0, cb.height/(row+1)*(i+1), cb.width/(col+1), cb.height/(row+1)));
+	txt.stringColor = Color.black;
+	txt.font = Font("Arial", 20);
+	txt.align = \center;
+	txt.string = i;
+};
+
+// Labels of players
+~labelY = StaticText(~wd, Rect(40, 0, cb.width, 40));
+~labelY.background = Color.gray(0.9);
+~labelY.stringColor = Color.black;
+~labelY.font = Font("Arial", 20);
+~labelY.align = \center;
+
+~labelX = StaticText(~wd, Rect(0, 40, 40, cb.height));
 ~labelX.background = Color.gray(0.9);
+~labelX.stringColor = Color.black;
+~labelX.font = Font("Arial", 20);
+~labelX.align = \center;
 
 ~labelPlayers = {
 	t = ["PHOENIX", "ALBATROSS"].rotate(~game);
@@ -90,21 +110,7 @@ cb = cv.bounds;
 	~labelX.string = a;
 };
 
-// Labels of tactics
-col.do{|i|
-	var txt;
-	txt = StaticText(cv, Rect(cb.width/(col+1)*(i%col+1), 0, cb.width/(col+1), cb.height/(row+1)));
-	txt.stringColor = Color.black;
-	txt.font = Font("Arial", 30);
-	txt.align = \center;
-	txt.string = i;
-};
-
-row.do{|i|
-	var txt;
-	txt = StaticText(cv, Rect(0, cb.height/(row+1)*(i+1), cb.width/(col+1), cb.height/(row+1)));
-	txt.stringColor = Color.black;
-	txt.font = Font("Arial", 30);
-	txt.align = \center;
-	txt.string = i;
-};
+~turnTxt = StaticText(~wd, Rect(0, 0, 40, 40));
+~turnTxt.stringColor = Color.black;
+~turnTxt.font = Font("Arial", 30);
+~turnTxt.align = \center;
