@@ -1,5 +1,12 @@
 #+TITLE: Readme
 
+* Installation
+
+1. Clone this repository inside your =Platform.userExtensionsDir=.
+2. Clone (or pull latest version of) sc-hacks-redux inside your =Platform.userExtensionsDir=.
+3. Recompile the SuperCollider class library.
+
+* Example
 To run a script stored in the same folder as Duel.sc,
 send the Duel class a message whose name corresponds to the name of the
 file of the script, without the scd.  For example:
@@ -13,3 +20,18 @@ loads the script:
 #+begin_src sclang
 test.scd
 #+end_src
+* Playing the Duel game simulation.
+
+Run this at the beginning to initialize some variables and start the server:
+#+begin_src sclang
+Duel.initialize;
+#+end_src
+
+Run this to create a new game
+
+#+begin_src sclang
+Duel.newgame
+#+end_src
+
+Then play the game (see other code for that ...)
+Every time the game ends, run =Duel.newgame= again.
