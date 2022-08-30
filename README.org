@@ -58,7 +58,7 @@ send the Duel class a message whose name corresponds to the name of the
 file of the script, without the scd.  For example:
 
 #+begin_src sclang
-Duel.test
+DuelExample.test
 #+end_src
 
 loads the script:

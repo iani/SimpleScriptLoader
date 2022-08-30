@@ -1,13 +1,13 @@
 Project.gui;
 
-Duel.initialize;
+DuelExample.initialize;
 
 // NOTE: It is not needed to disable OscGroups any more.
 // Any player can initiate Duel.newgame.
 // This is broadcast to all other players.
 // So to start a new game ONLY ONE USER NEEDS TO RUN Duel.newgame.
 // OscGroups.disable;
-Duel.newgame;
+DuelExample.newgame;
 // OscGroups.enable;
 
 // Executing tactics

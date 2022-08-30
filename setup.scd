@@ -1,11 +1,11 @@
 // ~path = thisProcess.nowExecutingPath.dirname;
 // (~path +/+ "func.scd").load;
-Duel.func;
+DuelExample.func;
 
 ~setup.();
 
 // (~path +/+ "display.scd").load;
-Duel.display;
+DuelExample.display;
 
 ~player = 1;
 ~opponent = 1 - ~player;
