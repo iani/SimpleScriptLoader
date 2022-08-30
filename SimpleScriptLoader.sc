@@ -22,6 +22,8 @@ SimpleScriptLoader {
 		var path;
 		path = (PathName(this.filenameSymbol.asString).pathOnly +/+ methodName.asString) ++ ".scd";
 		postln("LOADING: " + path);
+		OscGroups.disableCodeForwarding;
 		path.load;
+		OscGroups.enableCodeForwarding;
 	}
 }
