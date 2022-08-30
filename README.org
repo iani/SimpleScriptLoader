@@ -1,12 +1,58 @@
 #+TITLE: Readme
 
+* Purpose
+
+This class makes it possible to load scd files contained in a folder
+just by the name of the file, without having to know the full path
+of the file.  This is useful when sharing scripts with other users
+which have a different path to their user files.
+
+* Use principle
+
+The class finds script files by looking by their name in the folder where
+the class itself is located.  Example:
+
+If the class definition file =SimpleScriptLoader.sc= is in folder
+=Extensions/SimpleScriptLoader=, then sending the message =test=
+to =SimpleScriptLoader= will load the file =test.scd= from the same folder, i.e.
+the file: =Extensions/SimpleScriptLoader/test.sc=.
+Any syntactically correct message name can be used as file name.
+
+To use scripts from a different folder, define a subclasses of
+SimpleScriptLoader in that loader.  For example, one could have the folling
+folders, classes and script files:
+
+#+begin_example
+Extensions/Project1Scripts/Project1Scripts.sc // class Project1Scripts
+Extensions/Project1Scripts/script1.scd
+Extensions/Project1Scripts/script2.scd
+Extensions/Project1Scripts/script3.scd
+Extensions/OtherScripts/MyOtherScripts.sc // class MyOtherScripts
+Extensions/OtherScripts/anotherscript1.scd
+Extensions/OtherScripts/anotherscript2.scd
+Extensions/OtherScripts/justanexample.scd
+#+end_example
+
+Then one can call the scripts in the Project1Scripts and OtherScripts folders like this:
+
+#+begin_src sclang
+Project1Scripts.script1;
+Project1Scripts.script2;
+Project1Scripts.script3;
+MyOtherScripts.anotherscript1;
+MyOtherScripts.anotherscript2;
+MyOtherScripts.justanexample;
+#+end_src
+
 * Installation
 
 1. Clone this repository inside your =Platform.userExtensionsDir=.
-2. Clone (or pull latest version of) sc-hacks-redux inside your =Platform.userExtensionsDir=.
-3. Recompile the SuperCollider class library.
+2. Recompile the SuperCollider class library.
 
 * Example
+
+Duel.sc contains an example of a subclass that will run
+the scripts in its folder.
 To run a script stored in the same folder as Duel.sc,
 send the Duel class a message whose name corresponds to the name of the
 file of the script, without the scd.  For example:
@@ -21,6 +67,9 @@ loads the script:
 test.scd
 #+end_src
 * Playing the Duel game simulation.
+
+The scripts in this example require the sc-hacks-redux library to run.
+See https://github.com/iani/sc-hacks-redux
 
 Run this at the beginning to initialize some variables and start the server:
 #+begin_src sclang
