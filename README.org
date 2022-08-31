@@ -48,6 +48,14 @@ MyOtherScripts.justanexample;
 
 1. Clone this repository inside your =Platform.userExtensionsDir=.
 2. Recompile the SuperCollider class library.
+* Limitations
+
+SimpleScriptLoader does not require =sc-hacks-redux=.
+It should not be used with OscGroups functionality of =sc-hacks-redux=
+if the code shared through OscGroups involves loading
+other scd files, because this causes repeated evaluation (loops).
+
+If you require remote evaluation, use ScriptLoader from =sc-hacks-redux=.
 
 * Example
 
